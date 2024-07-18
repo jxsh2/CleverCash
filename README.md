@@ -1,2 +1,2 @@
 # CleverCash-Website
-School Project
+SCHOOL PROJECT: A website application the manages finances.
