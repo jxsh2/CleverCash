@@ -18,7 +18,8 @@ function Expenses() {
 
   useEffect(() => {
     getExpenses();
-  }, [getExpenses]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Sort and filter expenses based on selected sort by, sort order, and search query
   const sortedAndFilteredExpenses = expenses

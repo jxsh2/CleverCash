@@ -10,7 +10,8 @@ function Dues() {
 
   useEffect(() => {
     getDues();
-  }, [getDues]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Sort dues by closest due date
   const sortedDues = [...due].sort(

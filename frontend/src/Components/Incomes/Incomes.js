@@ -17,7 +17,8 @@ function Income() {
 
   useEffect(() => {
     getIncomes();
-  }, [getIncomes]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Sort and filter incomes based on selected sort by, sort order, and search query
   const sortedAndFilteredIncomes = incomes

@@ -13,108 +13,120 @@ export const GlobalProvider = ({ children }) => {
 
   // post income
   const addIncome = async (income) => {
-    await axios.post(`${BASE_URL}add-income`, income).catch((err) => {
-      setError(err.response.data.message);
-    });
-    getIncomes();
+    try {
+      await axios.post(`${BASE_URL}add-income`, income);
+      getIncomes();
+    } catch (err) {
+      handleAxiosError(err);
+    }
   };
 
   // get income
   const getIncomes = async () => {
-    const response = await axios.get(`${BASE_URL}get-incomes`);
-    setIncomes(response.data);
-    console.log(response.data);
+    try {
+      const response = await axios.get(`${BASE_URL}get-incomes`);
+      setIncomes(response.data);
+      console.log(response.data);
+    } catch (err) {
+      handleAxiosError(err);
+    }
   };
 
   // delete income
   const deleteIncome = async (id) => {
-    await axios.delete(`${BASE_URL}delete-income/${id}`);
-    getIncomes();
+    try {
+      await axios.delete(`${BASE_URL}delete-income/${id}`);
+      getIncomes();
+    } catch (err) {
+      handleAxiosError(err);
+    }
   };
 
   // compute total income
-  const totalIncome = () => {
-    let total = 0;
-    incomes.forEach((income) => {
-      total += income.amount;
-    });
-    return total;
-  };
-
-  console.log(totalIncome());
+  const totalIncome = () =>
+    incomes.reduce((acc, income) => acc + income.amount, 0);
 
   // post expense
   const addExpense = async (income) => {
-    await axios.post(`${BASE_URL}add-expense`, income).catch((err) => {
-      setError(err.response.data.message);
-    });
-    getExpenses();
+    try {
+      await axios.post(`${BASE_URL}add-expense`, income);
+      getExpenses();
+    } catch (err) {
+      handleAxiosError(err);
+    }
   };
 
   // get expenses
   const getExpenses = async () => {
-    const response = await axios.get(`${BASE_URL}get-expenses`);
-    setExpenses(response.data);
-    console.log(response.data);
+    try {
+      const response = await axios.get(`${BASE_URL}get-expenses`);
+      setExpenses(response.data);
+      console.log(response.data);
+    } catch (err) {
+      handleAxiosError(err);
+    }
   };
 
   // delete expense
   const deleteExpense = async (id) => {
-    await axios.delete(`${BASE_URL}delete-expense/${id}`);
-    getExpenses();
+    try {
+      await axios.delete(`${BASE_URL}delete-expense/${id}`);
+      getExpenses();
+    } catch (err) {
+      handleAxiosError(err);
+    }
   };
 
   // compute total expenses
-  const totalExpenses = () => {
-    let total = 0;
-    expenses.forEach((expense) => {
-      total += expense.amount;
-    });
-    return total;
-  };
+  const totalExpenses = () =>
+    expenses.reduce((acc, expense) => acc + expense.amount, 0);
 
   // total balance
-  const totalBalance = () => {
-    return totalIncome() - totalExpenses();
-  };
+  const totalBalance = () => totalIncome() - totalExpenses();
 
   // transaction history
   const transactionHistory = () => {
     const history = [...incomes, ...expenses];
-    history.sort((a, b) => {
-      return new Date(b.createdAt) - new Date(a.createdAt);
-    });
+    history.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     return history.slice(0, 4);
   };
 
   // all history
   const transactionHistoryAll = () => {
     const history = [...incomes, ...expenses];
-    history.sort((a, b) => {
-      return new Date(b.createdAt) - new Date(a.createdAt);
-    });
+    history.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     return history;
   };
 
   // post due
   const addDue = async (income) => {
-    await axios.post(`${BASE_URL}add-due`, income).catch((err) => {
-      setError(err.response.data.message);
-    });
-    getDues();
+    try {
+      await axios.post(`${BASE_URL}add-due`, income);
+      getDues();
+    } catch (err) {
+      handleAxiosError(err);
+    }
   };
 
   // get dues
   const getDues = async () => {
-    const response = await axios.get(`${BASE_URL}get-dues`);
-    setDues(response.data);
-    console.log(response.data);
+    try {
+      const response = await axios.get(`${BASE_URL}get-dues`);
+      setDues(response.data);
+      console.log(response.data);
+    } catch (err) {
+      handleAxiosError(err);
+    }
   };
 
   // delete due
   const deleteDue = async (id) => {
-    await axios.delete(`${BASE_URL}delete-due/${id}`);
-    getDues();
+    try {
+      await axios.delete(`${BASE_URL}delete-due/${id}`);
+      getDues();
+    } catch (err) {
+      handleAxiosError(err);
+    }
   };
 
   // upcoming dues
@@ -126,6 +138,16 @@ export const GlobalProvider = ({ children }) => {
       return diffA - diffB;
     });
     return history.slice(0, 4);
+  };
+
+  // generic error handler
+  const handleAxiosError = (err) => {
+    if (err.response?.data?.message) {
+      setError(err.response.data.message);
+    } else {
+      setError("An unexpected error occurred.");
+      console.error("Axios error:", err);
+    }
   };
 
   return (

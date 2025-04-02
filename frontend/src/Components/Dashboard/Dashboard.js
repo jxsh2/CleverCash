@@ -15,7 +15,8 @@ function Dashboard() {
   useEffect(() => {
     getIncomes();
     getExpenses();
-  }, [getIncomes, getExpenses]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <DashboardStyled>
