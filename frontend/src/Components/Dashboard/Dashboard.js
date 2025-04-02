@@ -1,5 +1,5 @@
-import React, { useEffect } from "react"
-import styled from "styled-components"
+import React, { useEffect } from "react";
+import styled from "styled-components";
 import { InnerLayout } from "../../styles/Layouts";
 import Chart from "../Chart/Chart";
 import { peso } from "../../utils/Icons";
@@ -7,53 +7,65 @@ import { useGlobalContext } from "../../context/globalContext";
 import History from "../../History/History";
 import DueHistory from "../../History/DuesHistory";
 
-function Dashboard(){
-    const {totalExpenses, totalIncome, totalBalance, getIncomes, getExpenses} = useGlobalContext()
-    
-    //render the data
-    useEffect(() => {
-        getIncomes()
-        getExpenses()
-        
-    }, [])
+function Dashboard() {
+  const { totalExpenses, totalIncome, totalBalance, getIncomes, getExpenses } =
+    useGlobalContext();
 
-    return(
-        <DashboardStyled>
-            <InnerLayout>
-                <div className="stats-con">
-                    <div className="chart-con">
-                        <Chart />
-                        <div className="amount-con">
-                        <div className="balance">
-                            <h2>Total Balance</h2>
-                                <p>
-                                    {peso} {totalBalance().toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                                </p>
-                            </div>
-                            <div className="income">
-                                <h2>Total Income</h2>
-                                <p>
-                                    {peso} {totalIncome().toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                                </p>
-                            </div>
-                            <div className="expense">
-                                <h2>Total Expenses</h2>
-                                <p>
-                                    {peso} {totalExpenses().toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                        <div className="dueHistory-con">
-                            <DueHistory />
-                            <div className="history-con">
-                            <History />
-                        </div>
-                        </div>
-                </div>
-            </InnerLayout>
-        </DashboardStyled>
-    )
+  //render the data
+  useEffect(() => {
+    getIncomes();
+    getExpenses();
+  }, [getIncomes, getExpenses]);
+
+  return (
+    <DashboardStyled>
+      <InnerLayout>
+        <div className="stats-con">
+          <div className="chart-con">
+            <Chart />
+            <div className="amount-con">
+              <div className="balance">
+                <h2>Total Balance</h2>
+                <p>
+                  {peso}{" "}
+                  {totalBalance().toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </p>
+              </div>
+              <div className="income">
+                <h2>Total Income</h2>
+                <p>
+                  {peso}{" "}
+                  {totalIncome().toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </p>
+              </div>
+              <div className="expense">
+                <h2>Total Expenses</h2>
+                <p>
+                  {peso}{" "}
+                  {totalExpenses().toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="dueHistory-con">
+            <DueHistory />
+            <div className="history-con">
+              <History />
+            </div>
+          </div>
+        </div>
+      </InnerLayout>
+    </DashboardStyled>
+  );
 }
 
 const DashboardStyled = styled.div`
@@ -142,4 +154,4 @@ const DashboardStyled = styled.div`
         
 
 `;
-export default Dashboard
+export default Dashboard;
