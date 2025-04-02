@@ -1,11 +1,5 @@
 {
-  "name": "clevercash-website",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "start": "cd frontend && npm start",
-    "build": "cd frontend && npm run build",
-    "test": "cd frontend && npm run test"
-  },
-  "dependencies": {}
+  "dependencies": {
+    "react-scripts": "^5.0.1"
+  }
 }
