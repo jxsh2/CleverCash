@@ -7,24 +7,19 @@ const app = express();
 
 require("dotenv").config();
 
-// ✅ Middleware
+// Middlewares
 app.use(express.json());
-app.use(
-  cors({
-    origin: "https://clever-cash-website.vercel.app",
-  })
+app.use(cors());
+
+// Routes
+readdirSync("./routes").map((route) =>
+  app.use("/api/v1", require("./routes/" + route))
 );
-app.options("*", cors());
 
-// ✅ Routes
-readdirSync("./routes").forEach((route) => {
-  app.use("/api/v1", require("./routes/" + route));
-});
-
-// ✅ Export the app for Vercel
+// Export the app for Vercel
 module.exports = app;
 
-// ✅ Local dev server
+// For local development only
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 5000;
   const server = () => {
