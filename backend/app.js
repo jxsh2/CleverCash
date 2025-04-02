@@ -1,27 +1,32 @@
-const express = require('express')
-const cors = require('cors');
-const { database } = require('./db/database');
-const {readdirSync} = require('fs')
-const app = express()
+const express = require("express");
+const cors = require("cors");
+const { database } = require("./db/database");
+const { readdirSync } = require("fs");
 
-require( 'dotenv').config()
+const app = express();
 
-const PORT = process.env.PORT
+require("dotenv").config();
 
-//middlewares
-app.use(express.json())
-app.use(cors())
+// Middlewares
+app.use(express.json());
+app.use(cors());
 
-//routes
-readdirSync('./routes').map((route) => app.use('/api/v1', require('./routes/' + route)))
+// Routes
+readdirSync("./routes").map((route) =>
+  app.use("/api/v1", require("./routes/" + route))
+);
 
+// Export the app for Vercel
+module.exports = app;
 
-const server = () => {
-    database()
+// For local development only
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 5000;
+  const server = () => {
+    database();
     app.listen(PORT, () => {
-        console.log('listening to port:', PORT)
+      console.log("listening to port:", PORT);
     });
-
+  };
+  server();
 }
-
-server()
