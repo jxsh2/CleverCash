@@ -1,6 +1,8 @@
 # CleverCash 
 *Description: A smart website application the manages finances.*
 
+🌐 Live Demo: https://clever-cash-website.vercel.app/
+
 **🛠️ Tech Used**
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
@@ -9,5 +11,13 @@
 
 ![clevercash](https://github.com/user-attachments/assets/7bd7b1b1-1ef7-465d-81e4-80abf65d56e2)
 
----
-🌐 Live Demo: https://clever-cash-website.vercel.app/
+## 📝 Requirements
+
+- **Backend**
+  - npm install mongodb
+  - npm start
+
+- **Frontend**
+  - npm install
+  - npm start
+    
