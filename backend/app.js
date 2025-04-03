@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { database } = require("./db/database");
-const { readdirSync } = require("fs");
+const transactionsRoutes = require("./routes/transactions"); // 🔁 static import
 
 const app = express();
 
@@ -12,9 +12,7 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
-readdirSync("./routes").map((route) =>
-  app.use("/api/v1/", require("./routes/" + route))
-);
+app.use("/api/v1", transactionsRoutes); // ✅ static, vercel-compatible
 
 // Export the app for Vercel
 module.exports = app;
