@@ -13,7 +13,7 @@ app.use(cors());
 
 // Routes
 readdirSync("./routes").map((route) =>
-  app.use("/api/v1", require("./routes/" + route))
+  app.use("/api/v1/", require("./routes/" + route))
 );
 
 // Export the app for Vercel
