@@ -6,12 +6,8 @@ const transactionsRoutes = require("./routes/transactions");
 const app = express();
 require("dotenv").config();
 
-// ✅ Define allowed frontend origin (your deployed frontend)
 const corsOptions = {
-  origin: [
-    "https://clever-cash-website.vercel.app/", // your frontend domain
-    "http://localhost:3000", // local dev (optional)
-  ],
+  origin: ["https://clever-cash-website.vercel.app/"],
   methods: ["GET", "POST", "DELETE", "PUT"],
   credentials: true,
 };
