@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_API_URL; // e.g., "https://clever-cash-website-backend.vercel.app/"
+const BASE_URL =
+  process.env.REACT_APP_API_URL || process.env.NEW_REACT_APP_API_URL;
 
 const GlobalContext = React.createContext();
 
@@ -14,7 +15,7 @@ export const GlobalProvider = ({ children }) => {
   // post income
   const addIncome = async (income) => {
     try {
-      await axios.post(`${BASE_URL}api/v1/add-income`, income);
+      await axios.post(`${BASE_URL}add-income`, income);
       getIncomes();
     } catch (err) {
       handleAxiosError(err);
@@ -24,7 +25,7 @@ export const GlobalProvider = ({ children }) => {
   // get income
   const getIncomes = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}api/v1/get-incomes`);
+      const response = await axios.get(`${BASE_URL}get-incomes`);
       setIncomes(response.data);
       console.log(response.data);
     } catch (err) {
@@ -35,7 +36,7 @@ export const GlobalProvider = ({ children }) => {
   // delete income
   const deleteIncome = async (id) => {
     try {
-      await axios.delete(`${BASE_URL}api/v1/delete-income/${id}`);
+      await axios.delete(`${BASE_URL}delete-income/${id}`);
       getIncomes();
     } catch (err) {
       handleAxiosError(err);
@@ -49,7 +50,7 @@ export const GlobalProvider = ({ children }) => {
   // post expense
   const addExpense = async (income) => {
     try {
-      await axios.post(`${BASE_URL}api/v1/add-expense`, income);
+      await axios.post(`${BASE_URL}add-expense`, income);
       getExpenses();
     } catch (err) {
       handleAxiosError(err);
@@ -59,7 +60,7 @@ export const GlobalProvider = ({ children }) => {
   // get expenses
   const getExpenses = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}api/v1/get-expenses`);
+      const response = await axios.get(`${BASE_URL}get-expenses`);
       setExpenses(response.data);
       console.log(response.data);
     } catch (err) {
@@ -70,7 +71,7 @@ export const GlobalProvider = ({ children }) => {
   // delete expense
   const deleteExpense = async (id) => {
     try {
-      await axios.delete(`${BASE_URL}api/v1/delete-expense/${id}`);
+      await axios.delete(`${BASE_URL}delete-expense/${id}`);
       getExpenses();
     } catch (err) {
       handleAxiosError(err);
@@ -101,7 +102,7 @@ export const GlobalProvider = ({ children }) => {
   // post due
   const addDue = async (income) => {
     try {
-      await axios.post(`${BASE_URL}api/v1/add-due`, income);
+      await axios.post(`${BASE_URL}add-due`, income);
       getDues();
     } catch (err) {
       handleAxiosError(err);
@@ -111,7 +112,7 @@ export const GlobalProvider = ({ children }) => {
   // get dues
   const getDues = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}api/v1/get-dues`);
+      const response = await axios.get(`${BASE_URL}get-dues`);
       setDues(response.data);
       console.log(response.data);
     } catch (err) {
@@ -122,7 +123,7 @@ export const GlobalProvider = ({ children }) => {
   // delete due
   const deleteDue = async (id) => {
     try {
-      await axios.delete(`${BASE_URL}api/v1/delete-due/${id}`);
+      await axios.delete(`${BASE_URL}delete-due/${id}`);
       getDues();
     } catch (err) {
       handleAxiosError(err);
