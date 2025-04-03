@@ -1,12 +1,17 @@
 {
-  "version": 2,
-
-  "builds": [{ "src": "*.js", "use": "@vercel/node" }],
-
-  "routes": [
+  "headers": [
     {
-      "src": "/(.*)",
-      "dest": "/"
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://clever-cash-website.vercel.app"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE"
+        }
+      ]
     }
   ]
 }
