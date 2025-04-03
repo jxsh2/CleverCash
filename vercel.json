@@ -15,7 +15,7 @@
   "routes": [
     {
       "src": "/api/v1/(.*)",
-      "dest": "backend/transactions.js"
+      "dest": "backend/app.js"
     },
     {
       "src": "/(.*)",

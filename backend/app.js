@@ -4,32 +4,29 @@ const { database } = require("./db/database");
 const { readdirSync } = require("fs");
 
 const app = express();
+
 require("dotenv").config();
 
-// ✅ CORS Setup: allow your frontend Vercel domain
-app.use(
-  cors({
-    origin: "https://clever-cash-website.vercel.app",
-    methods: ["GET", "POST", "DELETE", "PUT"],
-    credentials: true,
-  })
-);
-
+// Middlewares
 app.use(express.json());
+app.use(cors());
 
-// ✅ Load all route files
+// Routes
 readdirSync("./routes").map((route) =>
   app.use("/api/v1", require("./routes/" + route))
 );
 
-// ✅ For Vercel
+// Export the app for Vercel
 module.exports = app;
 
-// ✅ For local dev
+// For local development only
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 5000;
-  database();
-  app.listen(PORT, () => {
-    console.log("Server running on port:", PORT);
-  });
+  const server = () => {
+    database();
+    app.listen(PORT, () => {
+      console.log("listening to port:", PORT);
+    });
+  };
+  server();
 }
