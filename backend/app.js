@@ -7,7 +7,7 @@ const app = express();
 require("dotenv").config();
 
 const corsOptions = {
-  origin: ["https://clever-cash-website.vercel.app/"],
+  origin: ["https://clever-cash-website.vercel.app"],
   methods: ["GET", "POST", "DELETE", "PUT"],
   credentials: true,
 };
