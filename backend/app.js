@@ -6,11 +6,12 @@ const transactionsRoutes = require("./routes/transactions");
 const app = express();
 require("dotenv").config();
 
-// ✅ Define allowed frontend origin (your deployed frontend)
+// ✅ Define allowed frontend origins
 const corsOptions = {
   origin: [
-    "https://clever-cash-website.vercel.app", // your frontend domain
-    "http://localhost:3000", // local dev (optional)
+    "https://clever-cash-website-j42ywfsxz-jxsh2s-projects.vercel.app", // Add this (your actual frontend domain)
+    "https://clever-cash-website.vercel.app", // Keep this if you use it too
+    "http://localhost:3000", // Local dev
   ],
   methods: ["GET", "POST", "DELETE", "PUT"],
   credentials: true,
@@ -26,12 +27,12 @@ app.use(express.json());
 app.use("/api/v1", transactionsRoutes);
 
 // ✅ Simple health check route
-app.get("/", (req, res) => {
+app.get("/", (_req, res) => {
   res.send("✅ Backend is running.");
 });
 
 // ✅ Global error handler
-app.use((err, req, res, next) => {
+app.use((err, _req, res, _next) => {
   console.error("❌ Error:", err.stack);
   res.status(500).json({ error: "Something went wrong!" });
 });
