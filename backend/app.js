@@ -9,7 +9,6 @@ require("dotenv").config();
 // ✅ Define allowed frontend origins
 const corsOptions = {
   origin: [
-    "https://clever-cash-website-j42ywfsxz-jxsh2s-projects.vercel.app", // Add this (your actual frontend domain)
     "https://clever-cash-website.vercel.app", // Keep this if you use it too
     "http://localhost:3000", // Local dev
   ],
