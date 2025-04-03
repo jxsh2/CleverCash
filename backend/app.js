@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { database } = require("./db/database");
-const transactionsRoutes = require("./routes/transactions"); // 🔁 static import
+const transactionsRoutes = require("./routes/transactions");
 
 const app = express();
 
@@ -11,20 +11,24 @@ require("dotenv").config();
 app.use(express.json());
 app.use(cors());
 
-// Routes
-app.use("/api/v1", transactionsRoutes); // ✅ static, vercel-compatible
+// ✅ Health check route
+app.get("/", (req, res) => {
+  res.send("✅ Backend is running!");
+});
 
-// Export the app for Vercel
+// Routes
+app.use("/api/v1", transactionsRoutes);
+
+// ✅ Connect to database in all environments
+database();
+
+// Export app for Vercel
 module.exports = app;
 
-// For local development only
+// For local development
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 5000;
-  const server = () => {
-    database();
-    app.listen(PORT, () => {
-      console.log("listening to port:", PORT);
-    });
-  };
-  server();
+  app.listen(PORT, () => {
+    console.log("listening to port:", PORT);
+  });
 }
