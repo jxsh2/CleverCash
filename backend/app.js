@@ -21,10 +21,9 @@ app.get("/", (_req, res) => {
   res.json("✅ Backend is running (serverless)");
 });
 
-// ✅ Load all route files
 const routesPath = path.join(__dirname, "routes");
 readdirSync(routesPath).forEach((file) => {
-  app.use("/api/v1", require(path.join(routesPath, file)));
+  app.use("/", require(path.join(routesPath, file)));
 });
 
 database();
