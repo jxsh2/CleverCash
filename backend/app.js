@@ -1,12 +1,13 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const { database } = require("./db/database");
 const { readdirSync } = require("fs");
 const app = express();
 
 require("dotenv").config();
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 // ✅ CORS configuration
 const corsOptions = {
@@ -18,15 +19,22 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// routes
-readdirSync("./routes").map((route) =>
-  app.use("/api/v1", require("./routes/" + route))
-);
+// ✅ Root route for debugging
+app.get("/", (req, res) => {
+  res.send("✅ Backend is running and connected.");
+});
 
+// ✅ Load all routes from routes folder safely using absolute path
+const routesPath = path.join(__dirname, "routes");
+readdirSync(routesPath).forEach((file) => {
+  app.use("/api/v1", require(path.join(routesPath, file)));
+});
+
+// ✅ Connect to DB and start server
 const server = () => {
   database();
   app.listen(PORT, () => {
-    console.log("listening to port:", PORT);
+    console.log(`✅ Backend is running on port: ${PORT}`);
   });
 };
 
