@@ -16,8 +16,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// Log all incoming requests
-app.use((req, _res, next) => {
+// Log requests
+app.use((req, res, next) => {
   console.log(`${req.method} ${req.path} - Origin: ${req.headers.origin}`);
   next();
 });
@@ -25,15 +25,25 @@ app.use((req, _res, next) => {
 // Health check
 app.get("/", (_req, res) => res.send("✅ API is running"));
 
-// Dynamically load routes
+// Load routes
 const routesPath = path.join(__dirname, "routes");
-console.log("Loading routes from:", routesPath);
-readdirSync(routesPath).forEach((file) => {
-  console.log(`Loading route file: ${file}`);
-  app.use("/", require(`${routesPath}/${file}`));
+console.log("Routes directory:", routesPath);
+const routeFiles = readdirSync(routesPath);
+if (routeFiles.length === 0) {
+  console.log("No route files found in routes directory!");
+} else {
+  routeFiles.forEach((file) => {
+    console.log(`Loading route file: ${file}`);
+    const route = require(`${routesPath}/${file}`);
+    app.use("/", route);
+  });
+}
+
+// Catch-all for undefined routes
+app.use((req, res) => {
+  res.status(404).json({ error: `Route ${req.method} ${req.path} not found` });
 });
 
-// Connect to DB
 database();
 
 module.exports = app;
