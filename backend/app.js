@@ -27,8 +27,6 @@ readdirSync(routesPath).forEach((file) => {
   app.use("/api/v1", require(path.join(routesPath, file)));
 });
 
-// ✅ Connect to DB
 database();
 
-// ✅ EXPORT app for Vercel
 module.exports = app;
