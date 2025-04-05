@@ -16,6 +16,12 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+// Log all incoming requests
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path} - Origin: ${req.headers.origin}`);
+  next();
+});
+
 // Health check
 app.get("/", (_req, res) => res.send("✅ API is running"));
 
@@ -28,5 +34,5 @@ readdirSync(routesPath).forEach((file) => {
 // Connect to DB
 database();
 
-// ✅ Export app — no app.listen!
+// Export app for Vercel
 module.exports = app;
