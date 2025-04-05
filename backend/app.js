@@ -2,34 +2,24 @@ const express = require("express");
 const cors = require("cors");
 const { db } = require("../backend/db/database");
 const { readdirSync } = require("fs");
-const dotenv = require("dotenv");
-
-dotenv.config();
-
 const app = express();
+
+require("dotenv").config();
+
 const PORT = process.env.PORT;
 
-// Middlewares
+//middlewares
 app.use(express.json());
+app.use(cors());
 
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  })
-);
-
-// Test route
-app.get("/", (_req, res) => {
+app.get("/", (req, res) => {
   res.send("API is running...");
 });
-
-// Routes
+//routes
 readdirSync("./routes").map((route) =>
   app.use("/", require("./routes/" + route))
 );
 
-// Start server
 const server = () => {
   db();
   app.listen(PORT, () => {
