@@ -34,15 +34,25 @@ exports.addIncome = async (req, res) => {
   }
 };
 
-exports.getIncomes = async (_req, res) => {
-  try {
-    await database(); // 🟢 Ensure DB connection
+// exports.getIncomes = async (_req, res) => {
+//   try {
+//     await database(); // 🟢 Ensure DB connection
 
-    const incomes = await IncomeSchema.find().sort({ createdAt: -1 });
-    res.status(200).json(incomes);
+//     const incomes = await IncomeSchema.find().sort({ createdAt: -1 });
+//     res.status(200).json(incomes);
+//   } catch (error) {
+//     console.error("Error fetching incomes:", error);
+//     res.status(500).json({ message: "Server error while fetching incomes." });
+//   }
+// };
+
+exports.getIncomes = async (req, res) => {
+  try {
+    await database();
+    // TEMPORARY MOCK — REMOVE AFTER TESTING
+    res.status(200).json([{ title: "Sample", amount: 1000 }]);
   } catch (error) {
-    console.error("Error fetching incomes:", error);
-    res.status(500).json({ message: "Server error while fetching incomes." });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
