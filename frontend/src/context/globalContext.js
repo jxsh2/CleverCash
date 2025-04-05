@@ -1,11 +1,10 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 
-const BASE_URL =
-  process.env.REACT_APP_API_URL || process.env.NEW_REACT_APP_API_URL;
+const BASE_URL = "http://localhost:5000/api/v1";
 
 const GlobalContext = React.createContext();
-
+// send something to the database
 export const GlobalProvider = ({ children }) => {
   const [incomes, setIncomes] = useState([]);
   const [expenses, setExpenses] = useState([]);
@@ -14,122 +13,118 @@ export const GlobalProvider = ({ children }) => {
 
   // post income
   const addIncome = async (income) => {
-    try {
-      await axios.post(`${BASE_URL}add-income`, income);
-      getIncomes();
-    } catch (err) {
-      handleAxiosError(err);
-    }
-  };
+    // eslint-disable-next-line
+    const response = await axios
+      .post(`${BASE_URL}add-income`, income)
+      .catch((err) => {
+        setError(err.response.data.message);
+      });
 
+    getIncomes();
+  };
   // get income
   const getIncomes = async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}get-incomes`);
-      setIncomes(response.data);
-      console.log(response.data);
-    } catch (err) {
-      handleAxiosError(err);
-    }
+    const response = await axios.get(`${BASE_URL}get-incomes`);
+    setIncomes(response.data);
+    console.log(response.data);
   };
-
   // delete income
   const deleteIncome = async (id) => {
-    try {
-      await axios.delete(`${BASE_URL}delete-income/${id}`);
-      getIncomes();
-    } catch (err) {
-      handleAxiosError(err);
-    }
+    // eslint-disable-next-line
+    const response = await axios.delete(`${BASE_URL}delete-income/${id}`);
+    getIncomes();
   };
-
   // compute total income
-  const totalIncome = () =>
-    incomes.reduce((acc, income) => acc + income.amount, 0);
+  const totalIncome = () => {
+    let totalIncome = 0;
+    incomes.forEach((income) => {
+      totalIncome += income.amount;
+    });
+    return totalIncome;
+  };
+  console.log(totalIncome());
 
   // post expense
   const addExpense = async (income) => {
-    try {
-      await axios.post(`${BASE_URL}add-expense`, income);
-      getExpenses();
-    } catch (err) {
-      handleAxiosError(err);
-    }
-  };
+    // eslint-disable-next-line
+    const response = await axios
+      .post(`${BASE_URL}add-expense`, income)
+      .catch((err) => {
+        setError(err.response.data.message);
+      });
 
+    getExpenses();
+  };
   // get expenses
   const getExpenses = async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}get-expenses`);
-      setExpenses(response.data);
-      console.log(response.data);
-    } catch (err) {
-      handleAxiosError(err);
-    }
+    const response = await axios.get(`${BASE_URL}get-expenses`);
+    setExpenses(response.data);
+    console.log(response.data);
   };
-
   // delete expense
   const deleteExpense = async (id) => {
-    try {
-      await axios.delete(`${BASE_URL}delete-expense/${id}`);
-      getExpenses();
-    } catch (err) {
-      handleAxiosError(err);
-    }
+    // eslint-disable-next-line
+    const response = await axios.delete(`${BASE_URL}delete-expense/${id}`);
+    getExpenses();
+  };
+  // compute total expenses
+  const totalExpenses = () => {
+    let totalExpenses = 0;
+    expenses.forEach((expense) => {
+      totalExpenses += expense.amount;
+    });
+    return totalExpenses;
   };
 
-  // compute total expenses
-  const totalExpenses = () =>
-    expenses.reduce((acc, expense) => acc + expense.amount, 0);
-
   // total balance
-  const totalBalance = () => totalIncome() - totalExpenses();
+  const totalBalance = () => {
+    return totalIncome() - totalExpenses();
+  };
 
   // transaction history
   const transactionHistory = () => {
     const history = [...incomes, ...expenses];
-    history.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    history.sort((a, b) => {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+
     return history.slice(0, 4);
   };
 
-  // all history
+  //all history for transactions
   const transactionHistoryAll = () => {
     const history = [...incomes, ...expenses];
-    history.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    history.sort((a, b) => {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+
     return history;
   };
 
-  // post due
+  // post dues
   const addDue = async (income) => {
-    try {
-      await axios.post(`${BASE_URL}add-due`, income);
-      getDues();
-    } catch (err) {
-      handleAxiosError(err);
-    }
-  };
+    // eslint-disable-next-line
+    const response = await axios
+      // eslint-disable-next-line
+      .post(`${BASE_URL}add-due`, income)
+      .catch((err) => {
+        setError(err.response.data.message);
+      });
 
+    getDues();
+  };
   // get dues
   const getDues = async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}get-dues`);
-      setDues(response.data);
-      console.log(response.data);
-    } catch (err) {
-      handleAxiosError(err);
-    }
+    const response = await axios.get(`${BASE_URL}get-dues`);
+    setDues(response.data);
+    console.log(response.data);
   };
-
-  // delete due
+  // delete dues
   const deleteDue = async (id) => {
-    try {
-      await axios.delete(`${BASE_URL}delete-due/${id}`);
-      getDues();
-    } catch (err) {
-      handleAxiosError(err);
-    }
+    // eslint-disable-next-line
+    const response = await axios.delete(`${BASE_URL}delete-due/${id}`);
+    getDues();
   };
-
   // upcoming dues
   const dueHistory = (inputDate) => {
     const history = [...due];
@@ -139,16 +134,6 @@ export const GlobalProvider = ({ children }) => {
       return diffA - diffB;
     });
     return history.slice(0, 4);
-  };
-
-  // generic error handler
-  const handleAxiosError = (err) => {
-    if (err.response?.data?.message) {
-      setError(err.response.data.message);
-    } else {
-      setError("An unexpected error occurred.");
-      console.error("Axios error:", err);
-    }
   };
 
   return (
