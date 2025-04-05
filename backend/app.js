@@ -1,24 +1,27 @@
 const express = require("express");
 const cors = require("cors");
-const { db } = require("../backend/db/database");
+const { db } = require("./db/database"); // ✅ Use relative path properly
 const { readdirSync } = require("fs");
 const app = express();
+
+require("dotenv").config(); // ✅ Should be before anything that depends on .env
+
 const port = process.env.PORT || 5000;
 
-require("dotenv").config();
-//middlewares
+// Middleware
 app.use(express.json());
 app.use(cors());
 
-//routes
-readdirSync("./routes").map((route) =>
-  app.use("/api/v1", require("./routes/" + route))
-);
+// Load all route files inside ./routes and apply with /api/v1 prefix
+readdirSync("./routes").forEach((file) => {
+  app.use("/api/v1", require(`./routes/${file}`));
+});
 
+// Start the server
 const server = () => {
-  db();
+  db(); // Connect to MongoDB
   app.listen(port, () => {
-    console.log(`listening to port: ${port}`);
+    console.log(`✅ Server running on port: ${port}`);
   });
 };
 
