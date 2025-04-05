@@ -7,19 +7,18 @@ const { readdirSync } = require("fs");
 const app = express();
 require("dotenv").config();
 
-// ✅ CORS config
-const corsOptions = {
-  origin: ["https://clever-cash.vercel.app", "http://localhost:3000"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
-};
+app.use(
+  cors({
+    origin: ["https://clever-cash.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
-app.use(cors(corsOptions));
 app.use(express.json());
 
-// ✅ Debug root route
-app.get("/", (req, res) => {
-  res.send("✅ Backend is running (serverless)");
+app.get("/", (_req, res) => {
+  res.json("✅ Backend is running (serverless)");
 });
 
 // ✅ Load all route files
