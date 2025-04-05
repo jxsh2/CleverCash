@@ -21,9 +21,10 @@ app.get("/", (_req, res) => {
   res.json("✅ Backend is running (serverless)");
 });
 
-readdirSync("./routes").map((route) =>
-  app.use("/", require("./routes/" + route))
-);
+const routesPath = path.join(__dirname, "routes");
+readdirSync(routesPath).forEach((file) => {
+  app.use("/", require(path.join(routesPath, file)));
+});
 
 database();
 
