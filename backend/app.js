@@ -3,11 +3,9 @@ const cors = require("cors");
 const { db } = require("../backend/db/database");
 const { readdirSync } = require("fs");
 const app = express();
+const port = process.env.PORT || 5000;
 
 require("dotenv").config();
-
-const PORT = process.env.PORT;
-
 //middlewares
 app.use(express.json());
 app.use(cors());
@@ -19,8 +17,8 @@ readdirSync("./routes").map((route) =>
 
 const server = () => {
   db();
-  app.listen(PORT, () => {
-    console.log("listening to port:", PORT);
+  app.listen(port, () => {
+    console.log(`listening to port: ${port}`);
   });
 };
 
