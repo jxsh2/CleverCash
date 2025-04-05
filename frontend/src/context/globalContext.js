@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 
-const BASE_URL = "https://clever-cash-backend.vercel.app";
+const BASE_URL = "http://localhost:5000/";
 // "http://localhost:5000/api/v1/";
 
 const GlobalContext = React.createContext();
@@ -25,14 +25,14 @@ export const GlobalProvider = ({ children }) => {
   };
   // get income
   const getIncomes = async () => {
-    const response = await axios.get(`${BASE_URL}/get-incomes`);
+    const response = await axios.get(`${BASE_URL}get-incomes`);
     setIncomes(response.data);
     console.log(response.data);
   };
   // delete income
   const deleteIncome = async (id) => {
     // eslint-disable-next-line
-    const response = await axios.delete(`${BASE_URL}/delete-income/${id}`);
+    const response = await axios.delete(`${BASE_URL}delete-income/${id}`);
     getIncomes();
   };
   // compute total income
@@ -58,14 +58,14 @@ export const GlobalProvider = ({ children }) => {
   };
   // get expenses
   const getExpenses = async () => {
-    const response = await axios.get(`${BASE_URL}/get-expenses`);
+    const response = await axios.get(`${BASE_URL}get-expenses`);
     setExpenses(response.data);
     console.log(response.data);
   };
   // delete expense
   const deleteExpense = async (id) => {
     // eslint-disable-next-line
-    const response = await axios.delete(`${BASE_URL}/delete-expense/${id}`);
+    const response = await axios.delete(`${BASE_URL}delete-expense/${id}`);
     getExpenses();
   };
   // compute total expenses
@@ -116,14 +116,14 @@ export const GlobalProvider = ({ children }) => {
   };
   // get dues
   const getDues = async () => {
-    const response = await axios.get(`${BASE_URL}/get-dues`);
+    const response = await axios.get(`${BASE_URL}get-dues`);
     setDues(response.data);
     console.log(response.data);
   };
   // delete dues
   const deleteDue = async (id) => {
     // eslint-disable-next-line
-    const response = await axios.delete(`${BASE_URL}/delete-due/${id}`);
+    const response = await axios.delete(`${BASE_URL}delete-due/${id}`);
     getDues();
   };
   // upcoming dues

@@ -1,49 +1,40 @@
 const express = require("express");
 const cors = require("cors");
-const { database } = require("./db/database");
+const { db } = require("../backend/db/database");
 const { readdirSync } = require("fs");
-const path = require("path");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const app = express();
-require("dotenv").config();
+const PORT = process.env.PORT || 5000;
 
-const corsOptions = {
-  origin: ["https://clever-cash.vercel.app"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
+// Middlewares
 app.use(express.json());
 
-// Log requests
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.path} - Origin: ${req.headers.origin}`);
-  next();
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  })
+);
+
+// Test route
+app.get("/", (_req, res) => {
+  res.send("API is running...");
 });
 
-// Health check
-app.get("/", (_req, res) => res.send("✅ API is running"));
+// Routes
+readdirSync("./routes").map((route) =>
+  app.use("/", require("./routes/" + route))
+);
 
-// Load routes
-const routesPath = path.join(__dirname, "routes");
-console.log("Routes directory:", routesPath);
-const routeFiles = readdirSync(routesPath);
-if (routeFiles.length === 0) {
-  console.log("No route files found in routes directory!");
-} else {
-  routeFiles.forEach((file) => {
-    console.log(`Loading route file: ${file}`);
-    const route = require(`${routesPath}/${file}`);
-    app.use("/", route);
+// Start server
+const server = () => {
+  db();
+  app.listen(PORT, () => {
+    console.log("listening to port:", PORT);
   });
-}
+};
 
-// Catch-all for undefined routes
-app.use((req, res) => {
-  res.status(404).json({ error: `Route ${req.method} ${req.path} not found` });
-});
-
-database();
-
-module.exports = app;
+server();
