@@ -23,11 +23,11 @@ readdirSync("./routes").map((route) =>
   app.use("/api/v1", require("./routes/" + route))
 );
 
-// const server = () => {
-//   database();
-//   app.listen(PORT, () => {
-//     console.log("listening to port:", PORT);
-//   });
-// };
-database(); // just connect DB — no server.listen
-module.exports = app; // export for serverless
+const server = () => {
+  database();
+  app.listen(PORT, () => {
+    console.log("listening to port:", PORT);
+  });
+};
+
+server();
