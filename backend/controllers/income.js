@@ -34,7 +34,7 @@ exports.addIncome = async (req, res) => {
   }
 };
 
-exports.getIncomes = async (req, res) => {
+exports.getIncomes = async (_req, res) => {
   try {
     await database(); // 🟢 Ensure DB connection
 
