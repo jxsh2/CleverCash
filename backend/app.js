@@ -8,11 +8,17 @@ require("dotenv").config();
 
 const PORT = process.env.PORT;
 
-//middlewares
-app.use(express.json());
-app.use(cors());
+// ✅ CORS configuration
+const corsOptions = {
+  origin: ["https://clever-cash.vercel.app", "http://localhost:3000"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+};
 
-//routes
+app.use(cors(corsOptions));
+app.use(express.json());
+
+// routes
 readdirSync("./routes").map((route) =>
   app.use("/api/v1", require("./routes/" + route))
 );
