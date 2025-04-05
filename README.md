@@ -1,7 +1,7 @@
 # CleverCash 
 *Description: A smart website application the manages finances.*
 
-**🌐 Live Demo: https://clever-cash-website.vercel.app/**
+**🌐 [Live Demo](https://clever-cash.vercel.app/)**
 
 **🛠️ Tech Used**
 
