@@ -18,6 +18,7 @@ export const GlobalProvider = ({ children }) => {
       getIncomes();
     } catch (err) {
       handleError(err);
+      
     }
   };
 
